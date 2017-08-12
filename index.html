@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>
+Assignment 1 - Histogram
+</title>
+<script type="text/javascript" src="d3/d3.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<style>
+.bar text {
+  fill: white;
+  font: 10px sans-serif;
+}
+</style>
+<body leftmargin="50">
+<p><b>Fill in the details or do nothing and just click on the button to see the histogram!</b></p>
+<form name="HistogramForm">
+<lable><b><h3>Choose distrbution: </h3></b></lable>
+<input type="radio" name="radio_b" value="Random" onclick=0>Random Distribution<br>
+<div id="textboxes1" style="display: none">
+<br>
+Sample size:  <input type="text" id="size" placeholder="Add sample size" class="numberinput" />
+<br>
+<input type="radio" name="radio_a" value="With_Rep" onclick=0 /> With Replacement&nbsp;
+<input type="radio" name="radio_a" value="Without_Rep" onclick=0 /> Without Replacement
+</div>
+<br><br>
+<input type="radio" name="radio_b" value="Normal" onclick=0>Normal Distribution<br>
+<div id="textboxes2" style="display: none">
+<br>
+µ:  <input type="text" id="m" placeholder="Mu" class="numberinput" />&nbsp;
+σ:  <input type="text" id="s" placeholder="Sigma" class="numberinput" />
+</div>
+<br><br>
+<input type="radio" name="radio_b" value="Uniform" onclick=0>Uniform Distribution<br>
+<div id="textboxes3" style="display: none">
+<br>
+Range Minimum:  <input type="text" id="Min" placeholder="Add min value of range" class="numberinput" />&nbsp;
+Range Maximum:  <input type="text" id="Max" placeholder="Add max value of range" class="numberinput" />
+</div>
+<br><br>
+<input type="radio" name="radio_b" value="Exponential" onclick=0>Exponential Distribution<br>
+<div id="textboxes4" style="display: none">
+<br>
+λ:  <input type="text" id="l" placeholder="Lamda" class="numberinput" />
+</div>
+<br><br>
+<input name="Submit" type="button" value="Button" onclick="handleForm(this.form)"><br><br>
+</form>
+<script type="text/javascript">
+d3.select("p")
+    .style("color", "red");
+
+$(function() {
+    $('input[name="radio_b"]').on('click', function() {
+        if ($(this).val() == 'Random') {
+            $('#textboxes1').show();
+        }
+        else {
+            $('#textboxes1').hide();
+        }
+    });
+});
+
+$(function() {
+    $('input[name="radio_b"]').on('click', function() {
+        if ($(this).val() == 'Normal') {
+            $('#textboxes2').show();
+        }
+        else {
+            $('#textboxes2').hide();
+        }
+    });
+});
+
+$(function() {
+    $('input[name="radio_b"]').on('click', function() {
+        if ($(this).val() == 'Uniform') {
+            $('#textboxes3').show();
+        }
+        else {
+            $('#textboxes3').hide();
+        }
+    });
+});
+
+$(function() {
+    $('input[name="radio_b"]').on('click', function() {
+        if ($(this).val() == 'Exponential') {
+            $('#textboxes4').show();
+        }
+        else {
+            $('#textboxes4').hide();
+        }
+    });
+});
+
+function handleForm(form) 
+{	
+	d3.select("body")
+        .append("p")
+        .text("Place your cursor on the histogram or roll over it.");
+	
+    d3.select("body")
+        .append("svg")
+        .attr("width", "800")
+        .attr("height", "500");
+
+	var formatCount = d3.format(",.0f");
+
+	var svg = d3.select("svg"),
+        margin = {top: 10, right: 30, bottom: 30, left: 30},
+        width = + svg.attr("width") - margin.left - margin.right,
+        height = + svg.attr("height") - margin.top - margin.bottom,
+        g = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    if (form.radio_b[0].checked)
+    {
+        var size = document.getElementById("size").value;
+        console.log(size); 
+        if (form.radio_a[0].checked)
+        {
+            var data = d3.range(size)
+                .map(function() { return (Math.floor(Math.random() * 99) + 1) });
+        }
+        else if (form.radio_a[1].checked)
+        {
+            var data = [];
+            while(data.length < size)
+            {
+                var randomnumber = Math.floor(Math.random() * 99) + 1;
+                if(data.indexOf(randomnumber) > -1) continue;
+                data[data.length] = randomnumber;
+            }
+        }
+        console.log(data);
+        var x = d3.scaleLinear()
+            .domain([0, 100])
+            .rangeRound([0, width]);
+    }
+    else if (form.radio_b[1].checked)
+    {
+        var m = document.getElementById("m").value;
+        var s = document.getElementById("s").value;
+        console.log(m);
+        console.log(s); 
+        var data = d3.range(1000)
+            .map(d3.randomNormal(m, s));
+        console.log(data);
+        var x = d3.scaleLinear()
+            .domain([-10, +10])
+            .rangeRound([0, width]);
+    }
+    else if (form.radio_b[2].checked)
+    {
+        var Min = document.getElementById("Min").value;
+        var Max = document.getElementById("Max").value;
+        console.log(Min);
+        console.log(Max);
+        var data = d3.range(1000)
+            .map(d3.randomUniform(Min, Max));
+        console.log(data);
+        var x = d3.scaleLinear()
+            .domain([0, Max])
+            .rangeRound([0, width]);
+    }
+    else if (form.radio_b[3].checked)
+    {
+        var l = document.getElementById("l").value;
+        console.log(l);
+        var data = d3.range(1000)
+            .map(d3.randomExponential(l));
+        console.log(data);
+        var x = d3.scaleLinear()
+            .domain([0, 5])
+            .rangeRound([0, width]);
+    }
+    else
+    {
+        var data = d3.range(20)
+            .map(function() { return (Math.floor(Math.random() * 99) + 1) });
+        console.log(data);
+        var x = d3.scaleLinear()
+            .domain([0, 100])
+            .rangeRound([0, width]);
+    }
+
+    var bins = d3.histogram()
+        .domain(x.domain())
+        .thresholds(x.ticks(20))
+        (data);
+
+    var y = d3.scaleLinear()
+        .domain([0, d3.max(bins, function(d) { return d.length; })])
+        .range([height, 0]);
+
+    var bar = g.selectAll(".bar")
+        .data(bins)
+        .enter().append("g")
+        .attr("class", "bar")
+        .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
+
+    bar.append("rect")
+        .attr("x", 1)
+        .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
+        .attr("height", function(d) { return height - y(d.length); })
+        .attr("fill", function(d) { return "rgb(0, 0, " + (Math.floor(Math.random() * 225) + 30) +")"; })
+        .on("mouseover", function() {
+            d3.select(this)
+                .attr("fill", "orange");
+        })
+        .on("mouseout", function(d) {
+            d3.select(this)
+                .transition()
+                .duration(0.0001)
+                .attr("fill", "rgb(0, 0, " + (Math.floor(Math.random() * 225) + 30) + ")");
+        });
+
+    bar.append("text")
+        .attr("dy", ".75em")
+        .attr("y", 6)
+        .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
+        .attr("text-anchor", "middle")
+        .text(function(d) { return formatCount(d.length); });
+
+    g.append("g")
+        .attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+}
+</script>
+</body>
+</html>
