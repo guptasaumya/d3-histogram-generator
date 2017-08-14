@@ -1,7 +1,7 @@
 # D3 - Histogram
 
 ## About
-A D3 code that generates a histogram, based on user's input for different distributions. You can choose the distribution and provide different parameter values. For e.g. Choose the normal distrudion button, provide 'mu' and 'sigma' value and click on submit and you'll see a histogram corrosponding to the values.
+A D3 code that generates a histogram, based on user's input for different distributions. You can choose the distribution and provide different parameter values. For e.g. Choose the normal distributions button, provide 'mu' and 'sigma' values and click on 'Submit' and you'll see a histogram corrosponding to the values.
 
 ## Requirements
 1. Download d3.js from this site:
