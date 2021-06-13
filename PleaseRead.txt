@@ -1,0 +1,5 @@
+Just open the .html file with your browser, fill in the form and click on 'Submit', or directly click on the submit button to look at the default generation, i.e Random distribution; sample size: 20; range: 1-100; bins: 20; without replacement.
+NOTE:
+1. YOU NEED TO RELOAD THE PAGE BEFORE PUTTING IN A DIFFERENT SET OF PARAMETERS. (IT'S A FORM!!)
+2. YOU CAN'T PUT IN NUMBERS LIKE ".1". YOU HAVE TO PUT "0.1".
+
