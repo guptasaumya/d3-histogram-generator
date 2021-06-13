@@ -1,0 +1,12 @@
+How to fill the form:
+Select the sample size for the data.
+Choose between with or without replacement for the type of sample selection.
+Choose the number of bins for the histogram plot.
+Choose the type of distribution.
+Choose the parameters needed to generate the chosen distribution.
+Click on 'Submit'.
+
+Note:
+If you do not select anything and directly click on the 'Submit' button, you look at the default distribution:- random distribution; sample size: 20; range: 1-100; bins: 20; without replacement.
+Reload the page before putting in a different set of parameters.
+Do not put numbers like '.1' instead put '0.1'.
